@@ -6,7 +6,7 @@ However, I did not find any Sentiment Analysis models which predicted a sentimen
 This is fine for analysing news articles, financial Filings and letters to shareholders, which are written about a single financial entity.  
 
 However, when working with Tweets, very often-times multiple financial entities are mentioned, so assigning the entire tweet a single sentiment is not always appropriate.
-For example a tweet such as "$INTC has tough days ahead, after being outperformed by $AMD this long." reflects a negative sentiment toward Intel and a positive sentiment to AMD.
+For example a tweet such as "$INTC has tough days ahead, after being outperformed by $AMD this long." reflects a negative sentiment toward Intel and a positive sentiment to AMD.  
 
 In this project I aim at creating a compact transformer model capable of predicting the sentiment of each mentioned financial entity.
 
@@ -36,7 +36,8 @@ The masking is done for the purpose of unbiasing the sentiment prediction with r
 The predicted sentiment should depend only on the context of the tweet itself.  
 
 I do not want the prediction to be influenced by factors, such as, that past tweets mentioning a given company have been overwhelmingly positive.
-By masking, the model cannot rely on the learned bias of each Stock Ticker, especially given that the training data comprises past tweets. 
+By masking, the model cannot rely on the learned bias of each Stock Ticker, especially given that the training data comprises past tweets.  
+
 The past performance of the stock will be reflected in the sentiment of its past tweets within the dataset.  
 Past financial performance should not be used as an indicator of future performance, similarly I do not want past sentiments about a stock to affect the models future(present) sentiments about it.
 
@@ -44,7 +45,7 @@ Past financial performance should not be used as an indicator of future performa
 ## Model Architecture
 
 Inputs to the model are (batched) masked tweets. 
-The model itself is a basic encoder only model using bidirectional transformers.
+The model itself is a basic encoder only model using bidirectional transformers.  
 After a forward pass through the model, the embedding of the `[CLS]` token is the logit for the whole-sentence-sentiment.
 This is only used for the first stage of pre-training.  
 
@@ -62,13 +63,13 @@ I am currently experimenting with different architectures and hyperparameters.
 ## Training
 
 Given strong limitations for both clean training data and compute, I am forced to be restricted to simple models and low compute training techniques, which I wanted to experiment with anyways.
-The model training consists of three stages.
+The model training consists of three stages.  
 
 First, the model learns to predict the sentiment of an entire tweet using distillation learning. 
-Open-Source models for this task are easily available, I used [FinTwitBERT-sentiment](https://huggingface.co/StephanAkkerman/FinTwitBERT-sentiment).
+Open-Source models for this task are easily available, I used [FinTwitBERT-sentiment](https://huggingface.co/StephanAkkerman/FinTwitBERT-sentiment).  
 
 Next the model is trained for the specific task of providing per entity sentiment predictions, first using simple Tweets built from the first datasets.
-Finally, the model is fine-tuned using LoRA on a small sample of real tweets, mentioning multiple stocks, which have been manually labelled by myself.
+Finally, the model is fine-tuned using LoRA on a small sample of real tweets, mentioning multiple stocks, which have been manually labelled by myself.  
 
 The datasets are contained within `utils.py` and the training functionality within `train.py`.  
 *Note that I am still in the process of experimenting with the model architecture and hyperparameters of the first training stage. The second and third training stages are outlined below, but are still in active developement.*
@@ -78,7 +79,8 @@ The datasets are contained within `utils.py` and the training functionality with
 The teacher model I use is [FinTwitBERT-sentiment](https://huggingface.co/StephanAkkerman/FinTwitBERT-sentiment)
 Distillation Training is done on the same datasets the teacher was trained on: 
 - [financial-tweets-sentiment](https://huggingface.co/datasets/TimKoornstra/financial-tweets-sentiment)
-- [synthetic-financial-tweets-sentiment](https://huggingface.co/datasets/TimKoornstra/synthetic-financial-tweets-sentiment)  
+- [synthetic-financial-tweets-sentiment](https://huggingface.co/datasets/TimKoornstra/synthetic-financial-tweets-sentiment)
+
 I created a wrapper class for this model `Teacher` within the `util.py` module, which handles loading and saving the model and tokenizer, as well as combines the tokenization and model call into a single call.  
 
 My model is trained on the same objective as the teacher model, i.e. predicting the sentiment of an entire tweet.
@@ -104,7 +106,7 @@ Unlike real tweets, the mentions for each stock ticker are still neatly containe
 
 ## Fine-Tuning with LoRA
 
-Finally, I create a small dataset of real tweets, mentioning multiple stock tickers and manually label them.
+Finally, I create a small dataset of real tweets, mentioning multiple stock tickers and manually label them.  
 The dataset then contains the contextual information missing from the dataset in the previous training stage, such as: stock a outperforms stock b, stock a and stock b are competing with no clear winner, etc.
 As this dataset is small, I used LoRA to fine-tune the model data-efficiently for this task.
 
