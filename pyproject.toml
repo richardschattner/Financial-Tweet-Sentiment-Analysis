@@ -1,0 +1,21 @@
+[project]
+name = "entity-sentiment-distillation"
+version = "0.1.0"
+description = "Knowledge distillation training for EntitySentimentTransformer using a FinTwitBERT teacher."
+authors = [
+    { name = "Your Name", email = "you@example.com" }
+]
+requires-python = ">=3.10"
+
+dependencies = [
+    "torch==2.8.0",
+    "transformers==4.57.0",
+    "datasets==4.2.0",
+    "tqdm==4.67.1",
+    "numpy==2.3.3",
+    "pandas==2.3.3",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
