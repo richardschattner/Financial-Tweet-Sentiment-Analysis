@@ -112,4 +112,4 @@ As this dataset is small, I used LoRA to fine-tune the model data-efficiently fo
 
 ## Details on Model training, hyperparameter choices, evaluation metrics, etc.
 
-*As this repo is still under active developement, this section remains a placeholder for now and will be filled in gradually.*
+*This section is a placeholder and will be filled in gradually.*
