@@ -78,7 +78,7 @@ The datasets are contained within `utils.py` and the training functionality with
 The teacher model I use is [FinTwitBERT-sentiment](https://huggingface.co/StephanAkkerman/FinTwitBERT-sentiment)
 Distillation Training is done on the same datasets the teacher was trained on: 
 - [financial-tweets-sentiment](https://huggingface.co/datasets/TimKoornstra/financial-tweets-sentiment)
-- [synthetic-financial-tweets-sentiment](https://huggingface.co/datasets/TimKoornstra/synthetic-financial-tweets-sentiment)
+- [synthetic-financial-tweets-sentiment](https://huggingface.co/datasets/TimKoornstra/synthetic-financial-tweets-sentiment)  
 I created a wrapper class for this model `Teacher` within the `util.py` module, which handles loading and saving the model and tokenizer, as well as combines the tokenization and model call into a single call.  
 
 My model is trained on the same objective as the teacher model, i.e. predicting the sentiment of an entire tweet.
