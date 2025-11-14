@@ -1,4 +1,4 @@
-# Financial-Tweet-Sentiment-Analysis
+# Financial Tweet per-Entity Sentiment Analysis
 *Note that this repo is still a work in progress and uncompleted*
 
 Sentiment Analysis of Financial Data (including Tweets) is very common.
